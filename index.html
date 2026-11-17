@@ -293,7 +293,7 @@ h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.1
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
 }
-</style>
+.lvbar{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin:0 auto 16px}.lv-t{font-weight:800;color:var(--ink-2,inherit);opacity:.8}.lv-btn{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:150px;min-height:56px;padding:8px 16px;border-radius:16px;border:2px solid rgba(0,0,0,.12);background:rgba(255,255,255,.85);color:inherit;font:inherit;cursor:pointer}.lv-btn b{font-size:18px}.lv-btn small{font-size:13px;opacity:.75}.lv-btn.on{border-color:#ff7a59;background:#fff3e8;box-shadow:0 3px 0 #ff7a59}</style>
 
 <div class="wrap">
   <header class="hud" id="hud" hidden></header>
@@ -1323,6 +1323,473 @@ const have = new Set(BANK.VOCAB.map(w=>w[0].toLowerCase()));
 NEW.forEach(w=>{ const k=w[0].toLowerCase(); if(!have.has(k)){ have.add(k); BANK.VOCAB.push(w); } });
 })();
 
+// ===== 進階題庫（國二、國三程度，約兩成高一字彙）：聽力 =====
+const ADV = {};
+ADV.L1 = [
+["clock:7:45","What time is it?","It's a quarter to eight.","It's a quarter past seven.","It's seven fifteen."],
+["clock:2:30","What time is it?","It's half past two.","It's half past three.","It's a quarter to three."],
+["clock:9:15","What time is it?","It's a quarter past nine.","It's a quarter to nine.","It's nine forty-five."],
+["clock:5:40","What time is it?","It's twenty to six.","It's twenty past five.","It's twenty to five."],
+["clock:11:55","What time is it?","It's five to twelve.","It's five past eleven.","It's eleven oh five."],
+["🧑‍🍳🍳🔥","What is the cook doing?","The cook is frying an egg.","The cook is boiling an egg.","The cook is frying some fish."],
+["👩☂️🌧️","What is the woman doing?","She is walking in the rain with an umbrella.","She is waiting for the rain to stop.","She is selling umbrellas on the street."],
+["🚗💥🚙","What happened?","There was a car accident.","Two cars were parked side by side.","A car was being washed."],
+["🔥🏠🚒","What is happening?","A house is on fire.","A fire truck is being repaired.","People are having a barbecue."],
+["🤧🩺👩‍⚕️","What is happening?","A doctor is examining a sick patient.","A nurse is getting a haircut.","A patient is buying some medicine."],
+["📦🚚🏠","What is happening?","A package is being delivered.","A family is moving abroad.","A truck driver is taking a break."],
+["🧑‍🎓🎓👨‍👩‍👧","What is the event?","It's a graduation ceremony.","It's a wedding party.","It's a birthday celebration."],
+["🌡️ 38°C ☀️","How's the weather?","It's extremely hot.","It's quite chilly.","It's freezing cold."],
+["🌡️ 8°C 🧣","How's the weather?","It's very cold.","It's warm and pleasant.","It's hot and humid."],
+["🥤🥤🍔\nNT$40 / NT$40 / NT$75","How much do two drinks and a hamburger cost?","One hundred and fifty-five dollars.","One hundred and fifteen dollars.","Eighty dollars."],
+["🍎🍎🍎 = NT$45","How much is one apple?","Fifteen dollars.","Forty-five dollars.","Thirty dollars."],
+["🐕🐈🐕🐈🐕","Which is true?","There are more dogs than cats.","There are more cats than dogs.","There are as many cats as dogs."],
+["🚲🚌🚇","Which is NOT in the picture?","A taxi.","A bus.","A bicycle."],
+["🎹🎻🥁","What do these things have in common?","They are all musical instruments.","They are all sports equipment.","They are all kitchen tools."],
+["🍜🥟🧋","What do these things have in common?","They are all popular in Taiwan.","They are all kinds of fruit.","They are all hot drinks."],
+["👧📖💤","What happened to the girl?","She fell asleep while reading.","She is reading a scary story.","She is looking for her book."],
+["🧹🧽🗑️👨‍👩‍👧","What is the family doing?","They are cleaning the house together.","They are throwing a party.","They are shopping for furniture."],
+["🎒🏔️⛺","What are they planning to do?","Go camping in the mountains.","Go swimming at the beach.","Visit a museum in the city."],
+["🛫🧳🛂","Where are the travelers?","At the airport.","At the train station.","At a hotel."],
+["🙋‍♂️🏫❓","What is the student doing?","He is raising his hand to ask a question.","He is waving goodbye to his teacher.","He is handing in his homework."],
+["🧓🦯🧑🤝","What is the young man doing?","He is helping a blind man walk.","He is asking for directions.","He is selling a walking stick."],
+["📱🔋 0% 😩","What's the problem?","The phone's battery is dead.","The phone is too expensive.","The phone is broken into pieces."],
+["🏃‍♂️🥇🏆","What happened?","He won first place in the race.","He came in last in the race.","He lost his trophy."],
+["🌊🏄‍♀️","What is she doing?","She is surfing.","She is diving.","She is sailing."],
+["🧑‍💻💡","What is this person doing?","Coming up with an idea at the computer.","Fixing a broken light.","Playing a computer game with friends."]
+];
+
+ADV.L2 = [
+["Do you know where the nearest MRT station is?","Sorry, I'm new here myself.","Yes, I took the MRT yesterday.","It's the fastest way."],
+["Would you mind turning down the music?","Sorry, I'll do it right away.","Yes, I'd like some music.","The music is on the radio."],
+["How long have you been learning English?","For about six years.","Twice a week.","Since next month."],
+["I'm afraid I can't make it to your party.","That's too bad. Maybe next time.","Don't be afraid.","Yes, you can make it."],
+["What do you think of the new science teacher?","She explains things clearly.","I think she's at school.","She thinks I'm right."],
+["Could you tell me how to get to City Hall?","Go straight and turn left at the second light.","It's a big building.","I'm going there, too."],
+["Have you ever been to Japan?","Yes, I went there last summer.","Yes, I'm going.","No, I'm not Japanese."],
+["Why don't you join the basketball team?","I'm not tall enough.","Because I joined it.","It's a good team."],
+["What would you do if you found a wallet on the street?","I'd take it to the police station.","I found it yesterday.","It's a black wallet."],
+["How was your weekend?","Pretty relaxing. I stayed home and read.","I'll go hiking this weekend.","It's on Saturday and Sunday."],
+["Do you need any help with those bags?","Thanks, that would be great.","Yes, they're my bags.","No, I don't have any."],
+["The bus is so crowded today.","Yes, it's always like this during rush hour.","Let's take the bus.","It's a big bus."],
+["Are you sure you turned off the stove?","I think so, but let me check again.","Yes, I'm cooking.","The stove is in the kitchen."],
+["Excuse me, is anyone sitting here?","No, it's free. Go ahead.","Yes, I'm standing.","I'm sitting at home."],
+["What made you so upset?","My little brother broke my favorite cup.","I made a cake.","I'm not up yet."],
+["How often does the shuttle bus run?","Every fifteen minutes.","It takes fifteen minutes.","It's fifteen dollars."],
+["Can I leave a message for Ms. Lin?","Sure. Let me get a pen.","She's leaving now.","Yes, I got your message."],
+["I've lost my umbrella again.","You should write your name on it.","It's raining again.","I like your umbrella."],
+["Which would you prefer, the window seat or the aisle seat?","The window seat, please.","Yes, I prefer it.","I'd like to sit."],
+["Didn't you say you'd call me last night?","Sorry, I totally forgot.","Yes, I'll call you last night.","No, I'm calling you."],
+["Is it OK if I bring my cousin to the picnic?","Of course. The more, the merrier.","Yes, it's a picnic.","My cousin is OK."],
+["How would you like your steak?","Medium, please.","Very much.","With my friends."],
+["What's the weather going to be like this weekend?","They say it'll clear up on Sunday.","It was rainy last weekend.","I like this weekend."],
+["You look exhausted. What happened?","I stayed up late studying for the exam.","I'll take the exam tomorrow.","I'm looking for it."],
+["I can't decide which T-shirt to buy.","Why not get both? They're on sale.","I bought it yesterday.","It's a nice store."],
+["Do you happen to have a charger?","Sorry, I left mine at home.","Yes, it happened yesterday.","My phone is new."],
+["How about ordering pizza tonight?","Good idea. I don't feel like cooking.","It's a pizza shop.","Yes, it is."],
+["Whose idea was it to go camping?","It was Kevin's.","It's a good idea.","We went camping."],
+["Why were you absent yesterday?","I had a high fever.","I'll be absent tomorrow.","Yes, I was."],
+["Could you do me a favor and water my plants?","Sure. When are you leaving?","Yes, I like plants.","I did it for you."],
+["Are you going to take part in the speech contest?","I'm still thinking about it.","Yes, I took part.","It's a contest."],
+["This milk smells a little strange.","Maybe it's gone bad. Don't drink it.","Yes, I like milk.","It's my favorite smell."],
+["How much longer do we have to wait?","About ten more minutes.","We waited for an hour.","It's very long."],
+["Shall I pick you up at the station?","That would be very kind of you.","Yes, I picked it up.","The station is big."],
+["What kind of movies are you into?","Mostly science fiction.","I'm into the theater.","I saw it twice."],
+["Did you hear about the typhoon?","Yes, there will be no school tomorrow.","Yes, I'll hear it.","I heard some music."],
+["How did you do on the math test?","Better than I expected.","I did it at school.","It was on Monday."],
+["Do you mind if I open the window?","Not at all. It's a bit stuffy in here.","Yes, the window is open.","I opened it."],
+["What's the difference between these two phones?","This one has a better camera.","They're both phones.","I bought two phones."],
+["Sorry to keep you waiting.","That's all right. I just got here.","You're welcome.","I'm keeping it."]
+];
+
+ADV.L3 = [
+{d:[["M","Hi, I'd like two tickets for the seven o'clock show."],["W","Sorry, it's sold out. There are still seats for the nine-fifteen show."],["M","That's too late for my son. We'll come back tomorrow."]],q:"What will the man probably do?",o:["Come back another day.","Watch the 9:15 show.","Watch the 7:00 show."]},
+{d:[["W","Did you finish the report?"],["M","Almost. I still need to add some pictures, but my printer isn't working."],["W","You can use mine."]],q:"What is the man's problem?",o:["His printer is broken.","He has no pictures.","He lost his report."]},
+{d:[["M","Excuse me, how much is this jacket?"],["W","It's twelve hundred dollars, but today everything is twenty percent off."]],q:"How much will the jacket cost today?",o:["NT$960","NT$1,200","NT$240"]},
+{d:[["W","Jason, you've been playing games for three hours."],["M","Just ten more minutes, Mom."],["W","No. Turn it off now and go practice the piano."]],q:"What does the mother want Jason to do?",o:["Practice the piano.","Play for ten more minutes.","Go to bed."]},
+{d:[["M","Is Kelly coming to the meeting?"],["W","She said she would, but her train was delayed. She'll be about half an hour late."]],q:"Why will Kelly be late?",o:["Her train was delayed.","She forgot about the meeting.","She is sick."]},
+{d:[["W","I heard you moved. How's the new place?"],["M","It's bigger and cheaper, but it takes me an hour to get to work now."]],q:"What is a problem with the man's new home?",o:["It's far from his office.","It's too expensive.","It's too small."]},
+{d:[["M","Have you decided what to get Grandma for her birthday?"],["W","I was thinking of a scarf, but she already has lots of them. Maybe a photo album with family pictures."],["M","She'll love that."]],q:"What will they probably give Grandma?",o:["A photo album.","A scarf.","A camera."]},
+{d:[["W","The museum closes at five, right?"],["M","Usually, but on Fridays it stays open until eight."],["W","Great, today's Friday."]],q:"When does the museum close today?",o:["At 8:00.","At 5:00.","At 6:00."]},
+{d:[["M","Do you want to go jogging tomorrow morning?"],["W","I'd love to, but the weather report says it's going to pour."],["M","Then let's go to the gym instead."]],q:"Where will they probably exercise?",o:["At the gym.","In the park.","At the beach."]},
+{d:[["W","Excuse me, I ordered a chicken salad, but this is beef."],["M","I'm terribly sorry. I'll change it for you right away."]],q:"What is the woman complaining about?",o:["She got the wrong food.","Her food is cold.","She waited too long."]},
+{d:[["M","How many students signed up for the trip?"],["W","Thirty-five at first, but five dropped out, and then two more joined."]],q:"How many students are going on the trip now?",o:["Thirty-two.","Thirty-five.","Thirty."]},
+{d:[["W","Why are you wearing sunglasses inside?"],["M","I had eye surgery yesterday. The doctor said bright light might hurt my eyes."]],q:"Why is the man wearing sunglasses?",o:["To protect his eyes.","Because it's sunny inside.","To look cool."]},
+{d:[["M","Mom, can I borrow your car this Saturday?"],["W","Sorry, I need it to visit Aunt Lucy. You can take the MRT, can't you?"]],q:"How will the man probably travel on Saturday?",o:["By MRT.","By car.","By bike."]},
+{d:[["W","I can't find my phone anywhere."],["M","Did you check your coat pocket? You were wearing your coat when you came in."],["W","Oh, here it is!"]],q:"Where was the phone?",o:["In her coat pocket.","On the table.","In the car."]},
+{d:[["M","This math problem is driving me crazy."],["W","Why don't you ask Mr. Wu? He's always happy to help."],["M","Good idea. I'll go to his office after lunch."]],q:"What will the man do after lunch?",o:["See Mr. Wu.","Do the problem alone.","Help the woman."]},
+{d:[["W","How was your trip to Hualien?"],["M","The scenery was amazing, but it rained almost every day, so we couldn't go hiking."]],q:"What didn't the man do in Hualien?",o:["Go hiking.","See the scenery.","Travel there."]},
+{d:[["M","Are you taking the bus home?"],["W","No, my dad is picking me up. He gets off work at six."],["M","Then you'll have to wait an hour."]],q:"What time is it now?",o:["Around 5:00.","Around 6:00.","Around 7:00."]},
+{d:[["W","Which club are you joining this year?"],["M","I was in the drama club last year, but this year I want to try something different, like the photography club."]],q:"Which club does the man want to join this year?",o:["The photography club.","The drama club.","The dance club."]},
+{d:[["M","I'd like to send this package to Japan."],["W","By airmail or by sea? Airmail takes five days, but it costs three times as much."],["M","I'm not in a hurry."]],q:"How will the man probably send the package?",o:["By sea.","By airmail.","By express delivery."]},
+{d:[["W","Did you see the news? A typhoon is coming this weekend."],["M","Oh no, we planned to go to the beach."],["W","We'd better stay home."]],q:"What will they probably do this weekend?",o:["Stay at home.","Go to the beach.","Watch a typhoon."]},
+{d:[["M","Why is the line so long?"],["W","There's a famous singer signing her new album inside."]],q:"Why are people waiting in line?",o:["To meet a singer.","To buy concert tickets.","To see a movie."]},
+{d:[["W","I've been sneezing all morning."],["M","Maybe you're allergic to the cat. You played with it last night."]],q:"What does the man think caused the problem?",o:["The cat.","The weather.","Some food."]},
+{d:[["M","How about meeting at the library at two?"],["W","I have a dentist appointment at two. Can we make it an hour later?"],["M","Sure."]],q:"When will they meet?",o:["At 3:00.","At 2:00.","At 1:00."]},
+{d:[["W","Your English has improved a lot."],["M","Thanks. I've been watching American TV shows without Chinese subtitles."]],q:"How has the man improved his English?",o:["By watching shows without subtitles.","By taking extra classes.","By living in America."]},
+{d:[["M","Excuse me, does this train stop at Taoyuan?"],["W","No, this is an express train. You need the local train on Platform 2."]],q:"What should the man do?",o:["Go to Platform 2.","Stay on this train.","Buy a new ticket."]},
+{d:[["W","Do you want to share a pizza?"],["M","Sure, but I'm on a diet, so I'll only have one slice."]],q:"Why will the man eat only one slice?",o:["He is trying to lose weight.","He doesn't like pizza.","He has no money."]},
+{d:[["M","The air conditioner in our classroom is broken again."],["W","I'll report it to the office. In the meantime, let's open all the windows."]],q:"Who will the woman tell about the problem?",o:["The office.","The students.","The man's parents."]},
+{d:[["W","Peter, why didn't you hand in your homework?"],["M","I did it, but I left it on my desk at home."],["W","Bring it tomorrow, or you'll lose points."]],q:"What will happen if Peter forgets again?",o:["He will lose points.","He will stay after school.","He will have to call his mom."]},
+{d:[["M","Is this seat taken?"],["W","My friend went to get some drinks, but she'll be right back."]],q:"What does the woman mean?",o:["The seat is not free.","The man can sit there.","Her friend has gone home."]},
+{d:[["W","The concert was incredible! Too bad you missed it."],["M","I know. I had to look after my little sister because my parents were out of town."]],q:"Why did the man miss the concert?",o:["He had to take care of his sister.","He was out of town.","He didn't have a ticket."]},
+{d:[["M","How much is a one-way ticket to Tainan?"],["W","Seven hundred dollars. A round-trip ticket is thirteen hundred."],["M","Then I'll take a round trip."]],q:"How much does the man save by buying a round-trip ticket?",o:["NT$100","NT$700","NT$600"]},
+{d:[["W","Have you finished reading the novel I lent you?"],["M","Not yet. It's longer than I expected, but I can't put it down."]],q:"How does the man feel about the novel?",o:["He enjoys it very much.","He thinks it's boring.","He has already finished it."]},
+{d:[["M","Why are you taking so many photos of the menu?"],["W","I'm writing a blog post about local restaurants."]],q:"Why is the woman taking photos?",o:["For her blog.","To order food.","To show her mother."]},
+{d:[["W","We're running out of milk."],["M","I'll stop by the convenience store on my way home."]],q:"What will the man buy?",o:["Milk.","Bread.","Eggs."]},
+{d:[["M","Do you know if Ms. Chen is in?"],["W","She's in a meeting until three. Would you like to wait or leave a message?"],["M","I'll come back later."]],q:"What will the man do?",o:["Return later.","Leave a message.","Wait in the office."]},
+{d:[["W","My bike got a flat tire, so I walked here."],["M","No wonder you're late. There's a repair shop on the corner."]],q:"Why was the woman late?",o:["Her bike had a flat tire.","She missed the bus.","She got lost."]},
+{d:[["M","How long will it take to fix my computer?"],["W","About three days. We need to order a new part."]],q:"Why will it take three days?",o:["They need to order a part.","They are too busy.","The shop is closed."]},
+{d:[["W","I'm thinking of adopting a dog from the animal shelter."],["M","That's great, but remember dogs need to be walked every day."]],q:"What does the man remind the woman about?",o:["Dogs need daily walks.","Dogs are expensive.","Shelters are far away."]},
+{d:[["M","Did you enjoy the field trip?"],["W","Mostly. The factory tour was interesting, but the bus ride was so long that I felt sick."]],q:"What did the woman NOT enjoy?",o:["The bus ride.","The factory tour.","The lunch."]},
+{d:[["W","Why don't we take the stairs? The elevator is too slow."],["M","We're going to the twelfth floor!"]],q:"What does the man mean?",o:["He doesn't want to walk up so many floors.","He thinks the elevator is broken.","He wants to take the stairs."]}
+];
+
+ADV.L4 = [
+{t:"Attention, all passengers. Flight CI 105 to Tokyo has been delayed because of bad weather. The new departure time is 3:40 p.m. Passengers can get a free meal coupon at the service counter near Gate 12.",q:"What can passengers get at the service counter?",o:["🎫 A meal coupon.","✈️ A new ticket.","🧳 Their luggage."]},
+{t:"Hi, I'm Eric. I used to be shy and quiet, but last year I joined the school drama club. At first, I was too nervous to speak on stage. Now I enjoy acting, and I've made many new friends.",q:"How has Eric changed?",o:["He has become more confident.","He has become quieter.","He has left the drama club."]},
+{t:"Thank you for calling Green Park Hotel. If you want to make a reservation, press one. If you want to cancel a reservation, press two. For all other questions, please stay on the line.",q:"What should you do to cancel a reservation?",o:["Press two.","Press one.","Stay on the line."]},
+{t:"Good morning, class. Before the final exam, I want to remind you of a few things. Bring two pencils and an eraser. Phones must be turned off and put in your bags. If you finish early, check your answers carefully.",q:"What must students do with their phones?",o:["📵 Turn them off and put them away.","📱 Put them on the desk.","🏫 Give them to the teacher."]},
+{t:"Last weekend, our class held a beach clean-up. We collected over fifty bags of trash in three hours. Most of it was plastic, like bottles and straws. It made me realize how serious ocean pollution is.",q:"What was most of the trash?",o:["🥤 Plastic.","📰 Paper.","🥫 Metal cans."]},
+{t:"Welcome to the Science Museum. On the first floor, you can learn about dinosaurs. The second floor is about space, and the third floor has a 3D movie theater. Please note that the theater is closed for repairs this week.",q:"What can't visitors do this week?",o:["Watch a 3D movie.","Learn about dinosaurs.","Visit the second floor."]},
+{t:"My grandfather is eighty, but he is very active. He goes swimming three times a week and teaches calligraphy to children on weekends. He says staying busy keeps him young.",q:"What does the grandfather do on weekends?",o:["🖌️ He teaches calligraphy.","🏊 He goes swimming.","🛏️ He rests at home."]},
+{t:"Here is today's weather. This morning it is cloudy in the north, with temperatures around 18 degrees. A cold front will arrive tonight, and temperatures will drop to about 10 degrees tomorrow. Please dress warmly.",q:"What will happen tomorrow?",o:["🥶 It will be colder.","☀️ It will be sunny and hot.","🌀 A typhoon will come."]},
+{t:"Hi, Sam. It's Lisa. I'm sorry, but I won't be able to make it to study group today. My little brother is sick, and my parents are both working late. Could you send me the notes later? Thanks!",q:"Why is Lisa calling?",o:["To say she can't come.","To invite Sam to dinner.","To ask Sam to look after her brother."]},
+{t:"Many people throw away old clothes, but there are better choices. You can give them to people in need, sell them online, or turn them into something new, like bags. This way, we can reduce waste.",q:"What is the main idea of the talk?",o:["Ways to reuse old clothes.","How to buy cheap clothes.","Why fashion is important."]},
+{t:"The school library is having a reading contest this month. Students who read ten books and write a short report on each one will receive a gift card. The top three readers will also get their photos on the school website.",q:"What do students need to do to get a gift card?",o:["📚 Read ten books and write reports.","✍️ Write one long report.","📸 Take photos of books."]},
+{t:"Ladies and gentlemen, the show will begin in five minutes. Please turn off your phones and do not take photos or videos during the performance. Thank you, and enjoy the show.",q:"What are people NOT allowed to do?",o:["📷 Take photos.","🪑 Sit in their seats.","👏 Clap their hands."]},
+{t:"I started learning the guitar when I was ten. It was difficult at first, and my fingers often hurt. But I practiced every day for thirty minutes. Now I can play over fifty songs, and I'm in a band with my friends.",q:"What helped the speaker improve?",o:["Practicing every day.","Taking expensive lessons.","Listening to music."]},
+{t:"Attention, shoppers. A little boy named Danny is looking for his mother. He is wearing a yellow T-shirt and blue shorts. He is now at the information desk on the first floor. Thank you.",q:"Where is Danny now?",o:["At the information desk.","In the toy section.","At the store entrance."]},
+{t:"Our city will hold a marathon next Sunday. Several roads downtown will be closed from 6 a.m. to noon. Drivers are advised to use other roads, and bus routes will be changed during that time.",q:"What will happen next Sunday morning?",o:["🚧 Some roads will be closed.","🚌 Buses will be free.","🏃 Everyone must run."]},
+{t:"Do you often feel tired in class? Experts say teenagers need eight to ten hours of sleep. Try to put away your phone an hour before bed, because the light from the screen makes it harder to fall asleep.",q:"What does the speaker suggest?",o:["📵 Stop using phones before bed.","☕ Drink coffee in the morning.","🏃 Exercise late at night."]},
+{t:"Hello, this is a message for Mr. Huang. This is Taipei Dental Clinic. We need to change your appointment from Tuesday at 10 a.m. to Thursday at the same time. Please call us back if this is not convenient.",q:"When is the new appointment?",o:["Thursday at 10 a.m.","Tuesday at 10 a.m.","Thursday at 2 p.m."]},
+{t:"In Taiwan, the Lantern Festival comes fifteen days after Chinese New Year. People eat sweet rice balls and guess riddles written on lanterns. In some places, they also release sky lanterns with their wishes written on them.",q:"What do people write on sky lanterns?",o:["Their wishes.","Riddles.","Their phone numbers."]},
+{t:"When I first moved to Canada, I couldn't understand my classmates because they spoke so fast. I felt lonely. But my teacher encouraged me to join the soccer team. Playing together helped me make friends and improve my English.",q:"How did the speaker make friends?",o:["⚽ By joining the soccer team.","📖 By studying harder.","🏠 By moving back to Taiwan."]},
+{t:"Welcome aboard the Sun Moon Lake boat tour. The tour lasts about ninety minutes, and we'll stop at two piers. At the second stop, you'll have thirty minutes to walk around and buy some tea eggs. Please be back on the boat on time.",q:"How long can passengers walk around at the second stop?",o:["Thirty minutes.","Ninety minutes.","Two hours."]},
+{t:"Every year, millions of animals lose their homes because forests are cut down. You can help by using less paper, recycling, and buying products made from recycled materials.",q:"What is the problem in this talk?",o:["🌳 Forests are being destroyed.","🐶 There are too many pets.","🗑️ Recycling is too expensive."]},
+{t:"My sister and I are twins, but we are very different. She loves sports and is always outdoors. I prefer staying home to read and paint. We do agree on one thing, though: we both love our dog, Mochi.",q:"What do the twins have in common?",o:["🐶 They both love their dog.","⚽ They both love sports.","🎨 They both like to paint."]},
+{t:"Good afternoon. This is your principal. Because of the heavy rain, the sports day planned for tomorrow has been put off until next Friday. Classes will be held as usual tomorrow. Please bring your textbooks.",q:"What will students do tomorrow?",o:["Have regular classes.","Join the sports day.","Stay home."]},
+{t:"Do you want to save money? Here's a simple idea. Before you buy something, wait for three days. If you still really want it after three days, then buy it. You'll find that you don't need many of the things you wanted at first.",q:"What does the speaker suggest?",o:["Wait before buying things.","Buy things on sale.","Never buy anything."]},
+{t:"Thank you for visiting the National Zoo. The zoo will close in thirty minutes. The panda house and the night animal area are already closed. Please head to the main gate. We hope to see you again soon.",q:"Which area is already closed?",o:["🐼 The panda house.","🦁 The lion area.","🚪 The main gate."]},
+{t:"Hi, everyone. I'm Jenny, your new English teacher. I lived in Australia for five years, and I love traveling. In my class, you'll speak a lot of English, so don't be afraid of making mistakes. Mistakes help us learn.",q:"What does Jenny want students to do?",o:["Speak without fear of mistakes.","Travel to Australia.","Never make mistakes."]},
+{t:"The new bookstore on Main Street opens this Saturday. On the opening day, the first one hundred customers will get a free tote bag, and all books will be fifteen percent off for the whole weekend.",q:"Who will get a free bag?",o:["The first 100 customers.","Everyone who buys a book.","Customers on Sunday."]},
+{t:"I used to drink three cups of bubble tea a week. Then I learned that one cup can have as much sugar as ten sugar cubes. Now I only drink it once a month, and I choose less sugar. I feel much healthier.",q:"Why did the speaker drink less bubble tea?",o:["It has too much sugar.","It is too expensive.","The shop closed."]},
+{t:"Please listen carefully. During the earthquake drill, when you hear the alarm, get under your desk and protect your head. When the alarm stops, follow your teacher to the playground. Don't run, and don't push.",q:"What should students do first when they hear the alarm?",o:["Get under their desks.","Run to the playground.","Follow the teacher outside."]},
+{t:"Ken wanted to buy a new bike, so he started working at his uncle's restaurant on weekends. He washed dishes and cleaned tables. After six months, he had saved enough money. He was proud that he bought the bike by himself.",q:"How did Ken get the money for his bike?",o:["He worked at a restaurant.","His uncle gave it to him.","He sold his old bike."]}
+];
+
+// ===== 進階題庫：閱讀 =====
+ADV.R1 = [
+["The museum ____ in 1965. It is very old now.","was built","built","is building","has built","博物館「被建造」，用被動語態 was built。"],
+["English ____ in many countries around the world.","is spoken","speaks","is speaking","spoke","英語「被說」，用被動語態 is spoken。"],
+["I'm looking forward to ____ you next week.","seeing","see","saw","be seen","look forward to 的 to 是介系詞，後接 V-ing。"],
+["If I ____ you, I would apologize to her.","were","am","will be","be","與現在事實相反的假設，be 動詞用 were。"],
+["She has lived here ____ she was a child.","since","for","when","until","since＋過去的時間點或子句，搭配現在完成式。"],
+["The man ____ car was stolen called the police.","whose","who","which","whom","表示「那個人的」車，用所有格關係代名詞 whose。"],
+["This is the restaurant ____ we had dinner last week.","where","which","what","who","先行詞是地點，子句完整，用關係副詞 where。"],
+["We need to ____ energy, so turn off the lights when you leave.","save","waste","spend","produce","節省能源＝save energy。"],
+["The ____ in this city is getting worse because of the heavy traffic.","pollution","population","position","promotion","交通讓「污染」越來越嚴重。"],
+["Thanks to the doctor's ____, the patient recovered quickly.","treatment","argument","entertainment","punishment","醫生的「治療」讓病人很快康復。"],
+["Jenny was so ____ that she couldn't fall asleep the night before the trip.","excited","exciting","bored","boring","人「感到興奮」用 excited。"],
+["You'd better ____ an umbrella. It looks like rain.","take","to take","taking","took","had better＋原形動詞。"],
+["Each of the students ____ a laptop.","has","have","having","are having","each of＋複數名詞，動詞用單數 has。"],
+["Tom is not only smart ____ also kind.","but","and","or","so","not only … but also …＝不但……而且……。"],
+["I don't know ____ he will come to the party or not.","whether","that","what","which","whether … or not＝是否。"],
+["The movie was ____ boring that I fell asleep.","so","such","too","very","so＋形容詞＋that＝如此……以致於。"],
+["It was ____ a beautiful day that we went on a picnic.","such","so","too","very","such＋a＋形容詞＋名詞＋that。"],
+["He is too young ____ a car.","to drive","driving","drive","drove","too … to V＝太……而不能。"],
+["The ____ of the meeting is to discuss the school trip.","purpose","price","pressure","period","會議的「目的」是討論校外教學。"],
+["Please ____ the form and give it back to me.","fill out","find out","give up","take off","填寫表格＝fill out。"],
+["Don't ____ up! You can do it if you keep trying.","give","take","put","turn","give up＝放棄。"],
+["The store has a wide ____ of fruits and vegetables.","variety","vacation","victory","village","a wide variety of＝各式各樣的。（高一字彙）"],
+["Many people volunteer to help at the animal ____.","shelter","shower","shoulder","shelf","動物「收容所」＝animal shelter。"],
+["My parents ____ me to study abroad in the future.","encourage","prevent","complain","refuse","encourage sb. to V＝鼓勵某人做某事。"],
+["The baby ____ by her grandmother when her parents are at work.","is taken care of","takes care of","is taking care","took care","嬰兒「被照顧」，用被動語態，介系詞 of 要保留。"],
+["I wish I ____ fly like a bird.","could","can","will","am","I wish 表示不可能的願望，用過去式 could。"],
+["The more you practice, ____ you will become.","the better","the best","better","good","the＋比較級…, the＋比較級…＝越……就越……。"],
+["Have you ever ____ to Hong Kong?","been","gone","went","go","have been to＝去過（已經回來）。"],
+["We were ____ by the beautiful view from the top of the mountain.","amazed","amazing","amaze","amazes","人「感到驚嘆」用過去分詞 amazed。"],
+["Kevin apologized ____ being late for the meeting.","for","to","with","about","apologize for＝為……道歉。"],
+["It's important ____ us to protect the environment.","for","of","to","with","It's important for sb. to V。"],
+["It's very kind ____ you to help me.","of","for","to","with","描述人的特質（kind）用 It's kind of sb. to V。"],
+["The teacher asked us ____ quiet during the test.","to keep","keeping","keep","kept","ask sb. to V。"],
+["I'm used to ____ up early.","getting","get","got","be get","be used to＋V-ing＝習慣於。"],
+["There is ____ milk left. Let's buy some more.","little","few","a few","many","milk 不可數，「幾乎沒有」用 little。"],
+["Only a ____ students passed the difficult test.","few","little","lot","much","students 可數，「少數幾個」用 a few。"],
+["The bridge is 500 meters ____.","long","length","longer","longly","數字＋單位＋形容詞 long。"],
+["She speaks English ____ than her brother.","more fluently","fluently","most fluently","more fluent","than 前用比較級，修飾動詞要用副詞 more fluently。"],
+["Our team lost the game, ____ we still had fun.","but","because","so","if","輸了「但是」還是很開心。"],
+["____ it was raining hard, the game continued.","Although","Because","Unless","Since","「雖然」下大雨，比賽仍繼續。"],
+["You won't pass the exam ____ you study harder.","unless","if","because","although","unless＝除非。"],
+["This book is worth ____.","reading","to read","read","reads","be worth＋V-ing＝值得……。"],
+["My little sister is afraid of ____ alone in the dark.","being","be","is","been","介系詞 of 後面接動名詞 being。"],
+["Do you know ____ the next train leaves? — At 4:15.","when","where","who","which","回答時間，間接問句用 when。"],
+["Mr. Lin ____ English at this school for twenty years.","has taught","teaches","is teaching","was taught","for twenty years 一直到現在，用現在完成式。"],
+["By the time we got to the station, the train ____.","had left","has left","leaves","will leave","比過去另一件事更早發生，用過去完成式 had left。"],
+["The new law ____ people from smoking in parks.","prevents","allows","encourages","invites","prevent sb. from V-ing＝阻止某人做某事。"],
+["Please ____ your seat belt. The plane is taking off.","fasten","fix","fold","follow","繫上安全帶＝fasten your seat belt。（高一字彙）"],
+["The singer is very ____ among teenagers.","popular","polite","patient","private","受青少年「歡迎」。"],
+["He felt ____ after he failed the driving test.","disappointed","delighted","satisfied","relaxed","沒考過感到「失望」。"],
+["Students should ____ their teachers and classmates.","respect","replace","repeat","reply","尊重＝respect。"],
+["The company decided to ____ the price of its products by 10%.","reduce","reject","remind","receive","降低價格＝reduce。（高一字彙）"],
+["Could you ____ me how to use this machine?","show","say","speak","talk","show sb. how to V＝示範給某人看。"],
+["She is ____ about her future and doesn't know what to do.","confused","confusing","confuse","confusion","人「感到困惑」用 confused。"],
+["Taking a walk after dinner is good for your ____.","health","healthy","healthily","heal","介系詞 for 後面接名詞 health。"],
+["We had a long ____ about which movie to see.","discussion","discuss","discussed","discussing","a long＋名詞 discussion。"],
+["I'll call you as soon as I ____ home.","get","will get","got","getting","時間子句用現在式代替未來式。"],
+["The children enjoyed ____ at the party.","themselves","them","their","theirs","enjoy oneself＝玩得愉快。"],
+["Which one do you want? — I want ____ of them. They are both cute.","both","either","neither","none","兩個都要＝both。"],
+["The ____ attitude of the clerk made the customer angry.","rude","polite","friendly","patient","店員「無禮」的態度讓客人生氣。（attitude 為高一字彙）"]
+];
+
+ADV.R2 = [
+{title:"The Plastic Problem",p:"Plastic is everywhere in our lives. It is cheap and useful, {1} it causes serious problems. Every year, millions of tons of plastic end up in the ocean, {2} sea animals often mistake it for food. To {3} this problem, many shops now charge customers for plastic bags. We can also bring our own bottles {4} buying drinks in plastic cups.",
+ b:[["but","so","because","or"],["where","which","what","who"],["solve","cause","create","ignore"],["instead of","because of","in front of","such as"]],
+ e:["前後語意轉折，用 but。","where 代替 in the ocean（地點）。","「解決」問題＝solve。","instead of＝代替；用自己的瓶子取代塑膠杯。"]},
+{title:"A Special Teacher",p:"Mr. Chang is the most popular teacher at our school. He never gets angry, {1} when students make mistakes. Instead, he {2} us to try again. Last year, he {3} the Best Teacher Award. Many former students still visit him, {4} shows how much they respect him.",
+ b:[["even","ever","still","just"],["encourages","prevents","complains","forbids"],["won","win","has win","winning"],["which","what","who","that"]],
+ e:["even when＝即使在……的時候。","encourage sb. to V＝鼓勵某人。","Last year 用過去式 won。","非限定關係子句用 which 指前面整件事，不能用 that。"]},
+{title:"The Night Before the Exam",p:"The night before her final exam, Amy {1} until two in the morning. She thought studying longer would help her get a better grade. {2}, the next day she was so tired that she couldn't {3} on the test. Now she knows that getting enough sleep is {4} important as studying.",
+ b:[["stayed up","got up","gave up","put up"],["However","Therefore","Besides","For example"],["concentrate","celebrate","complain","compete"],["as","so","more","than"]],
+ e:["熬夜＝stay up。","結果和她預期相反，用 However。","concentrate on＝專心於。（高一字彙）","as important as＝和……一樣重要。"]},
+{title:"Volunteering",p:"Last summer, I volunteered at a children's hospital. My job was to read stories to the kids and play games with them. Some of them had been sick {1} a long time, but they were always cheerful. This experience taught me to be {2} for my health. It also made me {3} to become a doctor in the future, {4} I can help more people.",
+ b:[["for","since","during","in"],["thankful","careless","jealous","nervous"],["decide","deciding","decided","to decide"],["so that","even though","as if","unless"]],
+ e:["for a long time＝很長一段時間。","對自己的健康心懷「感恩」。","make sb.＋原形動詞。","so that＝以便、為了能夠。"]},
+{title:"Online Shopping",p:"Online shopping has become very {1} in recent years. It saves time, and you can compare prices easily. {2}, there are also some risks. Sometimes the products look different {3} the pictures. Also, if you give your personal information to an unsafe website, it might be {4}.",
+ b:[["common","rare","strange","expensive"],["However","Therefore","Finally","Instead"],["from","with","to","as"],["stolen","stealing","steal","stole"]],
+ e:["線上購物變得很「普遍」。","前面講優點、後面講風險，用 However。","different from＝和……不同。","個資「被偷」，被動語態用過去分詞 stolen。"]},
+{title:"The Dragon Boat Festival",p:"The Dragon Boat Festival is one of the most important traditional festivals in Taiwan. It is {1} on the fifth day of the fifth lunar month. People eat rice dumplings and watch dragon boat races. Each boat has about twenty people {2} paddle together to the beat of a drum. Teamwork is {3} for winning. Thousands of people gather by the river {4} the teams.",
+ b:[["celebrated","celebrating","celebrate","celebrates"],["who","which","whose","where"],["necessary","unnecessary","impossible","boring"],["to cheer for","cheering","cheered for","cheer"]],
+ e:["節日「被慶祝」，用被動語態 is celebrated。","先行詞是 people，用 who。","團隊合作是「必要的」。","不定詞表示目的：to cheer for＝為了替……加油。"]},
+{title:"A Lost Wallet",p:"On my way home yesterday, I found a wallet {1} the ground. Inside were some cash, a student ID, and a photo. I {2} the student's school and asked the office to return it. The next day, the owner, a girl named Iris, came to thank me. She said the photo was very {3} to her because it was of her late grandmother. I was glad I had {4} the right thing.",
+ b:[["lying on","lain on","lie on","lay on"],["contacted","contained","continued","controlled"],["valuable","available","comfortable","terrible"],["done","made","did","taken"]],
+ e:["錢包「躺在」地上，用現在分詞 lying。","聯絡學校＝contact。","照片對她很「珍貴」。","do the right thing＝做對的事；過去完成式 had done。"]},
+{title:"Learning a Language",p:"Many students think learning English is difficult. {1}, there are fun ways to learn. You can watch movies with English subtitles, listen to songs, or chat with foreign friends online. The key is to use English {2} possible. Don't be afraid of {3} mistakes. Every mistake is a chance to learn something new. With patience, you'll {4} see progress.",
+ b:[["However","Because","Unless","Therefore"],["as often as","as soon as","as long as","as well as"],["making","doing","taking","having"],["gradually","rarely","hardly","never"]],
+ e:["語意轉折，用 However。","as often as possible＝盡可能常常。","make mistakes＝犯錯。","「逐漸地」看到進步。（gradually 為高一字彙）"]},
+{title:"The School Garden",p:"Our school started a garden project this year. Each class is {1} for a small piece of land. We grow vegetables like lettuce and tomatoes. It's harder than we thought. We have to water the plants every day and {2} insects away. Last week, we finally {3} our first vegetables. We cooked them in a soup and shared it with the whole school. It tasted {4}!",
+ b:[["responsible","possible","sensible","terrible"],["keep","make","let","stop"],["harvested","planted","bought","threw"],["wonderful","wonderfully","wonder","wondered"]],
+ e:["be responsible for＝負責。","keep … away＝使……遠離。","「收成」第一批蔬菜＝harvest。","taste（嚐起來）後面接形容詞。"]},
+{title:"Typhoon Night",p:"Last night, a strong typhoon {1} Taiwan. The government announced that schools and offices would be closed. My family stayed home and {2} the windows with tape. The wind was so strong {3} some trees in our neighborhood fell down. Luckily, nobody was {4}. This morning, we helped our neighbors clean the street.",
+ b:[["hit","hits","hitting","has hit"],["covered","covering","cover","covers"],["that","than","which","when"],["injured","injuring","injury","injure"]],
+ e:["Last night 用過去式；hit 的過去式還是 hit。","and 連接兩個過去式動詞。","so … that＝如此……以致於。","人「受傷」用被動 was injured。"]},
+{title:"Too Much Screen Time",p:"These days, many teenagers spend more than six hours a day {1} at screens. Doctors warn that this habit can {2} their eyes and make it harder to sleep. Some parents set rules, {3} no phones during meals. Experts also suggest the 20-20-20 rule: every 20 minutes, look at something 20 feet away {4} 20 seconds.",
+ b:[["looking","to look","look","looked"],["damage","improve","protect","develop"],["such as","as if","so as","as for"],["for","in","at","by"]],
+ e:["spend＋時間＋V-ing。","「傷害」眼睛＝damage。","such as＝例如。","for 20 seconds＝持續 20 秒。"]},
+{title:"Grandma's Recipe",p:"My grandmother makes the best beef noodle soup in the world. She learned the recipe {1} her mother more than sixty years ago. She never measures anything; she just {2} on her experience. Last winter, I asked her to teach me. It took me five tries {3} I finally got it right. Now I want to write the recipe down so it won't be {4}.",
+ b:[["from","with","by","for"],["depends","decides","describes","delivers"],["before","after","since","while"],["forgotten","forgetting","forgot","forget"]],
+ e:["learn from＝向……學習。","depend on＝依靠。","試了五次「才」做對，用 before。","「被遺忘」用被動 be forgotten。"]}
+];
+
+ADV.R3 = [
+{title:"Student Exchange Program",kind:"公告",text:"STUDENT EXCHANGE PROGRAM — JAPAN\nWho can apply: 8th and 9th graders with an English or Japanese grade of B or higher\nDates: July 15 – July 29 (two weeks)\nYou will: stay with a Japanese host family, attend classes at a local junior high school, and visit Kyoto and Nara\nCost: NT$45,000 (includes flights and meals)\nDeadline: Hand in the application form and a 300-word essay by May 20.\nOnly 12 students will be chosen.",
+ qs:[["Who can apply for the program?","A 9th grader with a B in English.","A 7th grader with an A in Japanese.","An 8th grader with a C in English."],["What is NOT included in the cost?","Pocket money for shopping.","Flights.","Meals."],["What do students need to hand in?","An application form and an essay.","Only an application form.","A letter from a host family."]]},
+{title:"Smartphone Survey",kind:"圖表",text:"How many hours do 9th graders use smartphones on weekdays? (200 students)\nLess than 1 hour ■■ 10%\n1–2 hours ■■■■■■ 30%\n2–4 hours ■■■■■■■■ 40%\nMore than 4 hours ■■■■ 20%",
+ qs:[["How many students use smartphones for 2–4 hours?","80.","40.","60."],["Which is true?","More than half of the students use smartphones for over 2 hours.","Most students use them for less than an hour.","Nobody uses them for more than 4 hours."]]},
+{title:"Wrong Item Received",kind:"電子郵件",text:"To: Customer Service, BestBuy Online\nFrom: Daniel Lee\nSubject: Wrong item received\nDear Sir or Madam,\nOn March 3, I ordered a pair of black running shoes (size 9) from your website. However, the package I received yesterday contained a pair of white tennis shoes in size 7. I have attached a photo of the shoes and my receipt. Could you please send me the correct item as soon as possible? I would also like to know how to return the wrong shoes.\nBest regards,\nDaniel Lee",
+ qs:[["Why did Daniel write this email?","He got the wrong shoes.","His shoes were broken.","His package never arrived."],["What did Daniel order?","Black running shoes in size 9.","White tennis shoes in size 7.","Black tennis shoes in size 7."],["What does Daniel want to know?","How to send back the shoes.","How much the shoes cost.","When the store opens."]]},
+{title:"Bubble Tea",kind:"短文",text:"Bubble tea was invented in Taiwan in the 1980s. It is usually made with tea, milk, sugar, and chewy tapioca balls called pearls. Today, it is popular all over the world, from Tokyo to New York. However, health experts warn that a large cup can contain more than 60 grams of sugar, which is more than the daily limit suggested for adults. If you love bubble tea, try choosing less sugar and a smaller size.",
+ qs:[["Where did bubble tea come from?","Taiwan.","Japan.","America."],["What are the pearls made of?","Tapioca.","Milk.","Tea leaves."],["What is the writer's advice?","Choose less sugar and a smaller cup.","Stop drinking bubble tea completely.","Drink bubble tea only in Taiwan."]]},
+{title:"High Speed Rail Fares",kind:"價目表",text:"HIGH SPEED RAIL — TAIPEI TO TAICHUNG\nAdult (one way): NT$700\nChild (6–11) / Senior (65+): half price\nStudent (with ID, weekdays only): 25% off\nGroup of 10 or more: 10% off\n* Discounts cannot be combined.",
+ qs:[["How much does a senior pay?","NT$350","NT$525","NT$700"],["A 14-year-old student travels alone on Saturday. How much does she pay?","NT$700","NT$525","NT$350"],["What does the note at the bottom mean?","You can only use one discount.","Groups must be students.","Children ride for free."]]},
+{title:"The Speech Contest",kind:"日記",text:"May 12\nToday was the English speech contest. I had practiced my speech for weeks, but when I walked on stage, my mind went blank. I forgot the first line! I took a deep breath, looked at my teacher in the audience, and she smiled at me. Slowly, the words came back. I didn't win a prize, but my teacher said she was proud of me for not giving up. Next year, I'll try again.",
+ qs:[["What happened when the writer walked on stage?","The writer forgot the speech.","The writer won a prize.","The writer's teacher left."],["What helped the writer continue?","The teacher's smile.","The audience's cheering.","Reading from notes."],["How does the writer feel at the end?","Ready to try again.","Angry at the teacher.","Too embarrassed to speak English."]]},
+{title:"Star English Academy",kind:"廣告",text:"STAR ENGLISH ACADEMY\nGEPT Elementary & Intermediate classes\n◆ Small classes: no more than 12 students\n◆ Native English-speaking teachers\n◆ Free trial lesson every Saturday at 10 a.m.\n◆ Sign up with a friend and you both get NT$1,000 off!\nRegular price: NT$9,800 for 3 months",
+ qs:[["What is the largest number of students in a class?","Twelve.","Ten.","Three."],["How much does each person pay if two friends sign up together?","NT$8,800","NT$9,800","NT$7,800"],["When can you take a free lesson?","Saturday morning.","Every weekday.","Saturday evening."]]},
+{title:"Recycling Rules",kind:"告示",text:"APARTMENT RECYCLING RULES\nMonday & Thursday: paper and plastic\nTuesday & Friday: glass and metal cans\nWednesday: no collection\nWeekends: food waste only (7–9 p.m.)\n• Rinse all bottles and cans before recycling.\n• Fold boxes flat.\n• Anyone who breaks the rules may be fined NT$1,200.",
+ qs:[["When can you recycle glass bottles?","Tuesday.","Monday.","Wednesday."],["What should you do with boxes?","Fold them flat.","Wash them.","Throw them away on Wednesday."],["What may happen if you break the rules?","You may have to pay a fine.","You must move out.","You can't recycle for a month."]]},
+{title:"The Kind Bus Driver",kind:"新聞",text:"Taichung, Oct. 3 — A bus driver is being praised online for his kindness. Last Tuesday, an elderly woman got on Bus 300 but realized she had left her wallet at home. Instead of asking her to get off, driver Mr. Liao paid for her ticket with his own money. A passenger took a photo and shared the story on social media. Since then, it has been shared more than 20,000 times.",
+ qs:[["What was the woman's problem?","She didn't have her wallet.","She got on the wrong bus.","She felt sick on the bus."],["What did Mr. Liao do?","He paid her fare himself.","He asked her to get off.","He drove her home."],["How did people learn about the story?","Through social media.","From a TV show.","From the bus company."]]},
+{title:"Club Fair",kind:"告示",text:"JUNIOR HIGH CLUB FAIR\nDate: September 9 (Fri.), 1:00–4:00 p.m.  Place: Gym\n• Robotics Club — Learn to build and program robots. (Limit: 20 members)\n• Debate Club — Improve your speaking and thinking skills.\n• Guitar Club — Bring your own guitar.\n• Photography Club — Phones are fine; no camera needed.\nStudents must choose ONE club by September 16.",
+ qs:[["Which club requires students to bring something?","The Guitar Club.","The Photography Club.","The Debate Club."],["Which club has a limit on members?","The Robotics Club.","The Guitar Club.","The Debate Club."],["How many clubs can a student join?","One.","Two.","As many as they like."]]},
+{title:"Letter from a Pen Pal",kind:"信件",text:"Dear Yu-ting,\nThanks for your letter and the photos of Jiufen! The old streets and red lanterns look so beautiful. Here in Sydney, it's summer now, even though it's December. We celebrate Christmas at the beach with a barbecue, which might sound strange to you. Next month, my family is moving to Melbourne because my mom got a new job, so please send your next letter to my new address below.\nYour friend,\nOlivia",
+ qs:[["What is the weather like in Sydney in December?","It's summer.","It's winter.","It's the rainy season."],["How does Olivia's family celebrate Christmas?","With a barbecue at the beach.","With snow and a fireplace.","By visiting Jiufen."],["Why is Olivia's family moving?","Her mother has a new job.","They want to live near the beach.","Olivia is changing schools."]]},
+{title:"A Healthy Breakfast",kind:"短文",text:"Many students skip breakfast because they get up late or are not hungry in the morning. However, research shows that students who eat breakfast pay more attention in class and remember things better. A good breakfast does not have to be complicated. A boiled egg, a piece of whole-wheat bread, and a glass of milk can give you enough energy for the morning. Avoid sugary drinks and fried food, which make you feel tired later.",
+ qs:[["Why do some students skip breakfast?","They get up late.","They eat too much at night.","They don't like eggs."],["According to the article, what do students who eat breakfast do?","Pay more attention in class.","Get up earlier.","Eat less lunch."],["Which breakfast would the writer recommend?","An egg, bread, and milk.","Fried chicken and soda.","Cake and sweet tea."]]}
+];
+
+// ===== 進階題庫：寫作、口說、單字 =====
+ADV.W1 = [
+["the bridge/was built/by/the government/in 1998",".","The bridge was built by the government in 1998."],
+["have/you/ever/thought/about/studying abroad","?","Have you ever thought about studying abroad?"],
+["I/am/looking forward/to/seeing/you again",".","I am looking forward to seeing you again."],
+["the girl/who/won/the contest/is/my classmate",".","The girl who won the contest is my classmate."],
+["it/is/important/for us/to protect/the environment",".","It is important for us to protect the environment."],
+["do/you/know/where/the post office/is","?","Do you know where the post office is?"],
+["he/was/so tired/that/he/fell asleep/on the bus",".","He was so tired that he fell asleep on the bus."],
+["English/is/spoken/in/many countries",".","English is spoken in many countries."],
+["how long/have/you/lived/in/this city","?","How long have you lived in this city?"],
+["my mother/asked/me/not/to play/computer games",".","My mother asked me not to play computer games."],
+["this/is/the most exciting/movie/I/have ever seen",".","This is the most exciting movie I have ever seen."],
+["could/you/tell me/what time/the store/opens","?","Could you tell me what time the store opens?"],
+["the more/you/practice,/the better/you/will become",".","The more you practice, the better you will become."],
+["she/has been/learning/the piano/since/she was six",".","She has been learning the piano since she was six."],
+["we/should/turn off/the lights/to save/energy",".","We should turn off the lights to save energy."],
+["not only/Tom/but also/his sister/likes/swimming",".","Not only Tom but also his sister likes swimming."],
+["what/would/you/do/if/you/won/the lottery","?","What would you do if you won the lottery?"],
+["the book/that/you/lent me/is/really interesting",".","The book that you lent me is really interesting."],
+["I/am not used to/getting up/so early",".","I am not used to getting up so early."],
+["the movie/was/too boring/for me/to watch/again",".","The movie was too boring for me to watch again."],
+["it/took/them/three hours/to finish/the project",".","It took them three hours to finish the project."],
+["Mr. Lin/is/the teacher/whom/all the students/respect",".","Mr. Lin is the teacher whom all the students respect."],
+["why/don't/we/take/a walk/after dinner","?","Why don't we take a walk after dinner?"],
+["the cake/smells/so good/that/I/can't wait",".","The cake smells so good that I can't wait."],
+["neither/my father/nor/my mother/can speak/Japanese",".","Neither my father nor my mother can speak Japanese."],
+["you/had better/see a doctor/before/it/gets worse",".","You had better see a doctor before it gets worse."],
+["is/it/necessary/to bring/our passports","?","Is it necessary to bring our passports?"],
+["the students/were/excited/about/the coming/school trip",".","The students were excited about the coming school trip."],
+["I/wonder/if/you/could help me/with this problem",".","I wonder if you could help me with this problem."],
+["although/it/was raining,/they/still/went hiking",".","Although it was raining, they still went hiking."],
+["playing/video games/too much/is/bad for/your eyes",".","Playing video games too much is bad for your eyes."],
+["how/many times/have/you/been to/Kenting","?","How many times have you been to Kenting?"],
+["the window/was broken/by/the strong wind/last night",".","The window was broken by the strong wind last night."],
+["my brother/spends/two hours/practicing/basketball/every day",".","My brother spends two hours practicing basketball every day."],
+["would/you/mind/opening/the window/for me","?","Would you mind opening the window for me?"],
+["we/decided/to stay/at home/because of/the typhoon",".","We decided to stay at home because of the typhoon."],
+["she/is/one of/the most popular/singers/in Taiwan",".","She is one of the most popular singers in Taiwan."],
+["I/forgot/to bring/my umbrella,/so/I got wet",".","I forgot to bring my umbrella, so I got wet."],
+["what/do/you/think/of/the new library","?","What do you think of the new library?"],
+["the teacher/made/us/rewrite/the essay/twice",".","The teacher made us rewrite the essay twice."]
+];
+
+ADV.W2 = [
+{t:"改寫",ins:"改成被動語態",src:["Many tourists visit Taipei 101 every year."],start:"Taipei",ans:["Taipei 101 is visited by many tourists every year."]},
+{t:"改寫",ins:"改成被動語態",src:["My father fixed the bike yesterday."],start:"The",ans:["The bike was fixed by my father yesterday.","The bike was fixed yesterday by my father."]},
+{t:"改寫",ins:"用 for 改寫（現在完成式）",src:["I started learning English six years ago.","I am still learning it now."],start:"I",ans:["I have learned English for six years.","I have been learning English for six years.","I've learned English for six years.","I've been learning English for six years."]},
+{t:"改寫",ins:"用 since 改寫（現在完成式）",src:["Amy moved to Taichung in 2020.","She still lives there."],start:"Amy",ans:["Amy has lived in Taichung since 2020.","Amy has been living in Taichung since 2020."]},
+{t:"改寫",ins:"用 Do you know 改成間接問句",src:["Where is the library?"],start:"Do",ans:["Do you know where the library is?"]},
+{t:"改寫",ins:"用 Can you tell me 改成間接問句",src:["What time does the movie start?"],start:"Can",ans:["Can you tell me what time the movie starts?"]},
+{t:"改寫",ins:"用 too … to 改寫",src:["The box is so heavy that I can't lift it."],start:"The",ans:["The box is too heavy for me to lift.","The box is too heavy to lift."]},
+{t:"改寫",ins:"用 enough 改寫",src:["Ken is very tall.","He can reach the top shelf."],start:"Ken",ans:["Ken is tall enough to reach the top shelf."]},
+{t:"改寫",ins:"改成 It takes … to … 句型",src:["I spend twenty minutes walking to school."],start:"It",ans:["It takes me twenty minutes to walk to school."]},
+{t:"改寫",ins:"用 so … that 改寫",src:["The soup was very hot.","I couldn't drink it."],start:"The",ans:["The soup was so hot that I couldn't drink it.","The soup was so hot that I could not drink it."]},
+{t:"改寫",ins:"用 such … that 改寫",src:["It was a very good movie.","I watched it twice."],start:"It",ans:["It was such a good movie that I watched it twice."]},
+{t:"改寫",ins:"加上附加問句",src:["You are a new student."],start:"You",ans:["You are a new student, aren't you?","You're a new student, aren't you?"]},
+{t:"改寫",ins:"加上附加問句",src:["Tom didn't go to school yesterday."],start:"Tom",ans:["Tom didn't go to school yesterday, did he?"]},
+{t:"改寫",ins:"用最高級改寫",src:["No other student in our class is taller than Leo."],start:"Leo",ans:["Leo is the tallest student in our class.","Leo is the tallest in our class."]},
+{t:"改寫",ins:"用 not as … as 改寫",src:["My bike is newer than yours."],start:"Your",ans:["Your bike is not as new as mine.","Your bike isn't as new as mine."]},
+{t:"合併",ins:"用 who 合併",src:["The woman is a famous writer.","She lives next door."],start:"The",ans:["The woman who lives next door is a famous writer."]},
+{t:"合併",ins:"用 which 合併",src:["I lost the watch.","My grandfather gave it to me."],start:"I",ans:["I lost the watch which my grandfather gave to me.","I lost the watch which my grandfather gave me."]},
+{t:"合併",ins:"用 whose 合併",src:["I have a friend.","Her father is a pilot."],start:"I",ans:["I have a friend whose father is a pilot."]},
+{t:"合併",ins:"用 not only … but also 合併",src:["Lisa can sing.","Lisa can dance."],start:"Lisa",ans:["Lisa can not only sing but also dance.","Lisa not only can sing but also can dance."]},
+{t:"合併",ins:"用 although 合併",src:["It was cold.","We went swimming."],start:"Although",ans:["Although it was cold, we went swimming.","Although it was cold we went swimming."]},
+{t:"合併",ins:"用 unless 合併",src:["You will be late.","You must leave now."],start:"You",ans:["You will be late unless you leave now.","You'll be late unless you leave now."]},
+{t:"合併",ins:"用 so that 合併",src:["I got up early.","I could catch the first bus."],start:"I",ans:["I got up early so that I could catch the first bus."]},
+{t:"合併",ins:"用 as soon as 合併",src:["I got home.","I took a shower right away."],start:"As",ans:["As soon as I got home, I took a shower.","As soon as I got home I took a shower."]},
+{t:"合併",ins:"用 neither … nor 合併",src:["Ben doesn't eat meat.","Ben doesn't eat fish."],start:"Ben",ans:["Ben eats neither meat nor fish."]},
+{t:"合併",ins:"用 while 合併（過去進行式）",src:["I was doing my homework.","My brother was watching TV."],start:"While",ans:["While I was doing my homework, my brother was watching TV.","While I was doing my homework my brother was watching TV."]},
+{t:"合併",ins:"用 because of 合併",src:["The game was canceled.","There was heavy rain."],start:"The",ans:["The game was canceled because of the heavy rain.","The game was canceled because of heavy rain."]},
+{t:"合併",ins:"用 where 合併",src:["This is the park.","We first met in the park."],start:"This",ans:["This is the park where we first met."]},
+{t:"合併",ins:"用 either … or 合併",src:["You can call me.","You can send me an email."],start:"You",ans:["You can either call me or send me an email."]},
+{t:"合併",ins:"用 If 合併（與現在事實相反）",src:["I don't have a car.","I can't drive you home."],start:"If",ans:["If I had a car, I could drive you home.","If I had a car I could drive you home."]},
+{t:"合併",ins:"用 instead of 合併",src:["Let's walk to school.","Let's not take the bus."],start:"Let's",ans:["Let's walk to school instead of taking the bus."]}
+];
+
+ADV.W3 = [
+{title:"撿到錢包",pics:["🚶‍♀️👛","🤔💭","👮‍♂️🙇‍♀️"],words:"pick up, hesitate, hand in, be praised",
+ sample:"On her way home from school, Mei saw a wallet lying on the sidewalk. She picked it up and found a lot of cash inside. For a moment she hesitated, but she knew keeping it would be wrong. She took it to the nearby police station and handed it in. Two days later, the owner called to thank her, and her teacher praised her in front of the whole class."},
+{title:"第一次當志工",pics:["🏥🧑‍🎓","📖👧👦","😊❤️"],words:"volunteer, read stories, patients, meaningful",
+ sample:"Last summer vacation, Jason decided to volunteer at a children's hospital. At first, he was nervous because he had never done anything like that before. His job was to read stories to young patients. The children listened carefully and laughed at the funny parts. When he left, a little girl gave him a drawing. Jason realized that helping others was a meaningful experience."},
+{title:"颱風夜",pics:["🌀🏠","🔦⚡","🧹🌳"],words:"typhoon, power outage, flashlight, clean up",
+ sample:"Last night, a strong typhoon hit our city. My family stayed inside and listened to the wind outside. Around nine o'clock, there was a power outage, so we used flashlights and told stories to pass the time. This morning, the streets were covered with leaves and broken branches. Everyone in the neighborhood came out to help clean up."},
+{title:"輸掉決賽",pics:["🏀🏆","😞🏀","💪🏀📅"],words:"lose the game, disappointed, practice harder, next year",
+ sample:"Last Saturday, our basketball team played in the final of the city tournament. We tried our best, but we lost the game by only two points. Everyone felt disappointed, and some of my teammates even cried. Our coach told us that failure is part of success. Since then, we have been practicing harder every day, and we hope to win next year."},
+{title:"減塑行動",pics:["🥤🛍️🗑️","🐢🌊😢","🍶👜♻️"],words:"plastic, ocean, sea turtle, reusable",
+ sample:"Every day, people use plastic cups and bags only once and then throw them away. Much of this plastic ends up in the ocean. Sea turtles often mistake plastic bags for food and get sick. After learning this in class, Amy decided to change her habits. Now she always carries a reusable bottle and a shopping bag. She hopes more people will join her."},
+{title:"搭錯公車",pics:["🚌🎧","🗺️😱","📱👨🚗"],words:"take the wrong bus, realize, get off, pick up",
+ sample:"Last Sunday, Ben took a bus to visit his grandparents. He was listening to music and didn't pay attention to the stops. When he looked out the window, he realized he had taken the wrong bus and was in a place he didn't know. He got off and called his parents. His father drove over to pick him up. Since then, Ben has always checked the bus number carefully."}
+];
+
+ADV.S1 = [
+"I've been waiting for the bus for almost half an hour.","Could you please speak a little more slowly?","The library will be closed for repairs until next Monday.","She's been practicing the violin since she was five.","If it doesn't rain tomorrow, we'll go cycling by the river.",
+"My grandmother often tells me stories about her childhood.","Remember to recycle your bottles and cans after lunch.","The concert was canceled because of the typhoon.","I'm not sure whether I can finish the report on time.","Taking a short walk after meals is good for your health.",
+"The new shopping mall is much bigger than I expected.","Would you mind closing the door behind you?","He apologized for forgetting his friend's birthday.","Our class is planning a surprise party for our teacher.","The museum is famous for its collection of ancient art.",
+"Please hand in your homework before Friday afternoon.","I couldn't sleep last night because my neighbors were so noisy.","It's the most delicious beef noodle soup I've ever had.","The students were excited about the coming school trip.","You should wear a helmet whenever you ride a scooter.",
+"My cousin works as an engineer at a computer company.","Students are not allowed to use phones during the exam.","We decided to take the train instead of driving.","The weather report says it'll be sunny and warm this weekend.","I'm looking forward to seeing my old friends again."
+];
+
+ADV.S2 = [
+"Many young people are interested in protecting the environment.","The traffic is especially heavy during rush hour.","Volunteers helped clean up the beach after the storm.","It's necessary to bring your student ID to the exam.",
+"The temperature will drop sharply tomorrow evening.","Thank you for your patience. Your order will arrive shortly.","She was disappointed that she didn't get the scholarship.","The government plans to build more parks in the city center.",
+"Regular exercise can reduce stress and improve sleep.","Please keep your belongings with you at all times.","The festival attracts thousands of visitors every year.","Most of the passengers were asleep when the train arrived.",
+"He gradually became more confident after joining the club.","Our school encourages students to read at least one book a month.","The doctor advised him to eat less salt and more vegetables.","The bakery is popular for its fresh bread and friendly service.",
+"Several roads were closed because of the marathon.","I'd appreciate it if you could reply as soon as possible.","Learning a new language requires a lot of time and effort.","The earthquake was strong, but luckily no one was injured.",
+"Good morning, everyone. My name is Kevin, and I'm the leader of the school's environmental club. This semester, we are going to start a campaign called No Plastic Fridays. Every Friday, we encourage students to bring their own bottles, bags, and lunch boxes. Small changes can make a big difference. Please join us!",
+"Last month, my family visited Alishan. We got up at four in the morning to watch the sunrise. It was freezing, but when the sun slowly appeared above the sea of clouds, everyone cheered. Later, we took the small forest train and walked among giant trees that are more than a thousand years old. It was an unforgettable experience.",
+"Attention, please. Because of the heavy rain, today's outdoor assembly has been moved to the gym. All classes should go to the gym at ten o'clock. Please walk carefully, as the floors in the hallways may be wet. Teachers, please make sure your students sit in the assigned areas. Thank you for your cooperation.",
+"Many students feel stressed before exams. Here are some tips that may help. First, make a study plan and stick to it. Second, take short breaks every forty minutes to rest your eyes and mind. Third, get enough sleep, especially the night before the test. Finally, remember that one exam does not decide your whole future.",
+"My favorite place in my town is a small bookstore near the train station. The owner, an old man with white hair, knows almost every book in the shop. Whenever I can't decide what to read, he always gives me great suggestions. The store is quiet and smells of coffee and old paper. I feel relaxed every time I go there.",
+"Welcome to the Taipei Zoo. Before you start your visit, please read the following rules. Do not feed the animals, because human food can make them sick. Keep your voice down near the animal houses. Do not throw anything into the animal areas. If you need help, please look for staff members in green uniforms. Enjoy your day!"
+];
+
+ADV.S3 = [
+["What is the most important thing you have learned this year?","你今年學到最重要的事是什麼？","I have learned that practicing every day is more important than studying hard only before exams."],
+["If you could travel anywhere in the world, where would you go? Why?","如果你可以去世界任何地方旅行，你會去哪裡？為什麼？","I would go to Iceland because I want to see the northern lights with my own eyes."],
+["Do you think students should be allowed to bring phones to school? Why or why not?","你認為學生應該可以帶手機到學校嗎？為什麼？","I think they should, because phones are useful in emergencies, but they should be turned off in class."],
+["What do you usually do when you feel stressed?","你感到有壓力時通常會做什麼？","When I feel stressed, I listen to music or go jogging in the park to relax."],
+["Describe a person who has influenced you.","描述一個影響過你的人。","My uncle has influenced me a lot. He works hard and is always willing to help others."],
+["What would you do if a classmate was being bullied?","如果有同學被霸凌，你會怎麼做？","I would tell a teacher right away and stay with my classmate so that he or she doesn't feel alone."],
+["How can we protect the environment in our daily lives?","我們在日常生活中可以怎麼保護環境？","We can bring our own bottles and bags, turn off the lights, and take public transportation."],
+["What is your favorite holiday? How do you celebrate it?","你最喜歡哪個節日？你怎麼慶祝？","My favorite holiday is Chinese New Year. My family has a big dinner together, and I get red envelopes."],
+["Have you ever made a big mistake? What did you learn from it?","你曾經犯過大錯嗎？你從中學到什麼？","Once I lied to my parents about my grades. I learned that being honest is always better."],
+["What kind of job would you like to have in the future? Why?","你將來想做什麼工作？為什麼？","I'd like to be an engineer because I enjoy solving problems and building things."],
+["Do you prefer studying alone or with friends? Why?","你喜歡自己讀書還是和朋友一起讀？為什麼？","I prefer studying alone because I can concentrate better, but sometimes I ask friends for help."],
+["In your opinion, what is the best way to learn English?","你認為學英文最好的方法是什麼？","In my opinion, the best way is to use English every day, such as watching shows and talking with others."],
+["Tell me about a time you helped someone.","說說你幫助別人的一次經驗。","Last week, I helped an old woman carry her heavy bags up the stairs. She thanked me with a big smile."],
+["What do you think about online classes?","你對線上課程有什麼看法？","Online classes are convenient, but I think it's harder to focus and talk with classmates."],
+["If you had one million dollars, what would you do with it?","如果你有一百萬元，你會怎麼用？","I would save most of it for my education and use some of it to buy a gift for my parents."],
+["What are some advantages of living in a big city?","住在大城市有什麼好處？","In a big city, public transportation is convenient, and there are many places to shop and study."],
+["How has technology changed our lives?","科技如何改變了我們的生活？","Technology makes it easy to contact people and find information, but we spend too much time on screens."],
+["What is something you are proud of?","有什麼事讓你感到驕傲？","I'm proud that I finished a ten-kilometer run last year even though it was very hard."],
+["Why do you think many people like to keep pets?","你認為為什麼很多人喜歡養寵物？","Many people like pets because pets are loyal and can make them feel less lonely."],
+["What would you change about your school if you could?","如果可以，你想改變學校的什麼地方？","I would add more books to the library and make the lunch break a little longer."],
+["Describe your ideal weekend.","描述你理想中的週末。","My ideal weekend is sleeping late, going hiking with friends, and watching a movie at night."],
+["Should students wear school uniforms? Why or why not?","學生應該穿制服嗎？為什麼？","I think uniforms are a good idea because students don't need to worry about what to wear."],
+["What is a skill you want to learn? Why?","你想學什麼技能？為什麼？","I want to learn how to cook, because I want to make healthy meals for myself in the future."],
+["What do you usually do during summer vacation?","你暑假通常做什麼？","I usually take swimming lessons, read novels, and visit my grandparents in the countryside."],
+["Do you think it's important to learn about other cultures? Why?","你認為了解其他文化重要嗎？為什麼？","Yes, because understanding other cultures helps us respect people who are different from us."]
+];
+
+// 進階單字：第三欄 'S' 代表高一程度，其餘為國二、國三程度；單字快打依 8：2 比例出題
+ADV.VOCAB = [
+["ability","能力"],["absent","缺席的"],["accept","接受"],["accident","意外"],["achieve","達成"],["active","活躍的"],["actually","實際上"],["admire","欽佩"],["adult","成人"],["advice","建議（名詞）"],
+["afford","負擔得起"],["against","反對；倚靠"],["agree","同意"],["allow","允許"],["alone","單獨的"],["amazing","驚人的"],["ancient","古老的"],["announce","宣布"],["anxious","焦慮的"],["appear","出現"],
+["apologize","道歉"],["appreciate","感激"],["area","區域"],["argue","爭論"],["arrange","安排"],["attack","攻擊"],["attend","出席"],["attention","注意"],["audience","觀眾"],["available","可取得的；有空的"],
+["avoid","避免"],["award","獎項"],["balance","平衡"],["basic","基本的"],["behave","表現；守規矩"],["belong","屬於"],["bill","帳單"],["blind","失明的"],["bottom","底部"],["brain","大腦"],
+["brave","勇敢的"],["breathe","呼吸"],["brief","簡短的"],["business","生意"],["calm","冷靜的"],["cancel","取消"],["career","職業生涯"],["careless","粗心的"],["celebrate","慶祝"],["century","世紀"],
+["certain","確定的；某些"],["challenge","挑戰"],["character","角色；性格"],["cheat","作弊；欺騙"],["chemistry","化學"],["citizen","公民"],["climate","氣候"],["comfortable","舒適的"],["communicate","溝通"],["community","社區"],
+["compare","比較"],["competition","比賽；競爭"],["complain","抱怨"],["complete","完成；完整的"],["condition","狀況"],["contact","聯絡"],["continue","繼續"],["control","控制"],["convenient","方便的"],["conversation","對話"],
+["correct","正確的"],["cost","花費"],["courage","勇氣"],["create","創造"],["crowd","人群"],["culture","文化"],["custom","習俗"],["customer","顧客"],["daily","每日的"],["damage","損害"],
+["deal","處理；交易"],["decision","決定（名詞）"],["degree","度；學位"],["deliver","遞送"],["depend","依賴"],["describe","描述"],["desert","沙漠"],["design","設計"],["dessert","甜點"],["develop","發展"],
+["diary","日記"],["diet","飲食"],["direction","方向"],["disappear","消失"],["discover","發現"],["discuss","討論"],["disease","疾病"],["distance","距離"],["divide","分開；除"],["double","兩倍的"],
+["doubt","懷疑"],["downtown","市中心"],["education","教育"],["effort","努力（名詞）"],["electric","電的"],["emotion","情緒"],["energy","能量"],["enemy","敵人"],["engine","引擎"],["entrance","入口"],
+["environment","環境"],["especially","尤其"],["event","事件；活動"],["exact","確切的"],["examine","檢查"],["excellent","優秀的"],["excuse","藉口；原諒"],["exist","存在"],["exit","出口"],["expect","預期"],
+["experience","經驗"],["expert","專家"],["express","表達"],["fact","事實"],["fail","失敗；不及格"],["fair","公平的"],["familiar","熟悉的"],["fashion","時尚"],["fear","恐懼"],["female","女性的"],
+["final","最後的"],["flight","航班"],["follow","跟隨"],["foreign","外國的"],["forgive","原諒（某人）"],["fortune","財富；運氣"],["freedom","自由"],["friendship","友誼"],["future","未來"],["gather","聚集"],
+["general","一般的"],["gentle","溫和的"],["giant","巨人"],["goal","目標"],["government","政府"],["grade","年級；成績"],["guest","客人"],["guide","嚮導"],["habit","習慣"],["harm","傷害"],
+["hero","英雄"],["honest","誠實的"],["host","主人；主持"],["huge","巨大的"],["human","人類"],["humid","潮濕的"],["hunt","打獵"],["ignore","忽略"],["imagine","想像"],["improve","改善"],
+["include","包含"],["increase","增加"],["influence","影響力"],["information","資訊"],["insist","堅持"],["instead","反而；代替"],["introduce","介紹"],["invent","發明"],["journey","旅程"],["judge","法官；判斷"],
+["knowledge","知識"],["lack","缺乏"],["language","語言"],["law","法律"],["lawyer","律師"],["leader","領導者"],["lecture","講課"],["limit","限制"],["local","當地的"],["lonely","寂寞的"],
+["manager","經理"],["matter","事情；要緊"],["meal","一餐"],["measure","測量"],["member","成員"],["memory","記憶"],["message","訊息"],["method","方法"],["modern","現代的"],["national","國家的"],
+["natural","自然的"],["neighbor","鄰居"],["noise","噪音"],["notice","注意到；公告"],["novel","小說"],["ocean","海洋"],["offer","提議；提供"],["opinion","意見"],["ordinary","普通的"],["owner","擁有者"],
+["pain","疼痛"],["passenger","乘客"],["patient","病人；有耐心的"],["perfect","完美的"],["perhaps","也許"],["period","期間"],["personal","個人的"],["planet","行星"],["pleasure","樂趣"],["poem","詩"],
+["poison","毒藥"],["population","人口"],["position","位置"],["possible","可能的"],["power","力量"],["praise","稱讚"],["prefer","偏好"],["prepare","準備"],["president","總統；會長"],["pressure","壓力"],
+["prevent","預防"],["pride","自尊；驕傲"],["prize","獎品"],["produce","生產"],["professor","教授"],["program","節目；計畫"],["progress","進步"],["promise","承諾"],["protect","保護"],["provide","供應"],
+["public","公共的"],["punish","處罰"],["purpose","目的"],["quality","品質"],["quarter","四分之一"],["raise","舉起；養育"],["reason","理由"],["receive","收到"],["recent","最近的"],["recycle","回收"],
+["refuse","拒絕"],["regret","後悔"],["relax","放鬆"],["remain","保持；剩下"],["repeat","重複"],["reply","回覆"],["respect","尊重"],["result","結果"],["review","複習"],["reward","獎賞"],
+["safety","安全"],["salary","薪水"],["schedule","時間表"],["score","分數"],["search","搜尋"],["secret","秘密"],["serious","嚴重的；認真的"],["service","服務"],["share","分享"],["shy","害羞的"],
+["silent","沉默的"],["situation","情況"],["skill","技能"],["social","社交的"],["soldier","士兵"],["solve","解決"],["sour","酸的"],["speech","演說"],["spirit","精神"],["stranger","陌生人"],
+["succeed","成功（動詞）"],["success","成功（名詞）"],["suddenly","突然"],["suggest","提議；建議（動詞）"],["support","支持"],["survive","倖存"],["symbol","象徵"],["system","系統"],["talent","天分"],["task","任務"],
+["technology","科技"],["teenager","青少年"],["thief","小偷"],["tool","工具"],["tradition","傳統"],["traffic","交通"],["treat","對待；請客"],["trust","信任"],["truth","真相"],["universe","宇宙"],
+["valuable","貴重的"],["victory","勝利"],["volunteer","志工"],["weight","重量"],["wise","有智慧的"],["wonder","想知道；奇蹟"],["worth","值得的"],["youth","青春"],
+["absorb","吸收","S"],["academic","學術的","S"],["accomplish","實現","S"],["accurate","準確的","S"],["adapt","適應","S"],["adopt","領養；採用","S"],["adventure","冒險","S"],["affect","影響（動詞）","S"],["aggressive","有攻擊性的","S"],["alternative","替代方案","S"],
+["analyze","分析","S"],["anniversary","週年紀念","S"],["appointment","約會；預約","S"],["approach","接近；方法","S"],["attitude","態度","S"],["attract","吸引","S"],["behavior","行為","S"],["budget","預算","S"],["campaign","宣傳活動","S"],["capable","有能力的","S"],
+["ceremony","典禮","S"],["circumstance","情勢","S"],["colleague","同事","S"],["conclusion","結論","S"],["confident","有自信的","S"],["consider","考慮","S"],["contribute","貢獻","S"],["convince","說服","S"],["curious","好奇的","S"],["debate","辯論","S"],
+["definitely","肯定地","S"],["determine","下定決心","S"],["disaster","災難","S"],["efficient","有效率的","S"],["emergency","緊急情況","S"],["encourage","鼓勵","S"],["entertain","娛樂；招待","S"],["essential","必要的","S"],["eventually","終於","S"],["evidence","證據","S"],
+["exhausted","精疲力盡的","S"],["frustrated","感到挫折的","S"],["generation","世代","S"],["gradually","逐漸地","S"],["independent","獨立的","S"],["investigate","調查","S"],["maintain","維持","S"],["negative","負面的","S"],["obvious","明顯的","S"],["participate","參與","S"],
+["positive","正面的","S"],["potential","潛力","S"],["reduce","降低；減少","S"],["require","需要；要求","S"],["responsibility","責任","S"],["satisfy","使滿意","S"],["severe","劇烈的；嚴峻的","S"],["struggle","掙扎；奮鬥","S"],["sufficient","充足的","S"],["transportation","交通運輸","S"],
+["variety","多樣性","S"],["vehicle","車輛","S"],["witness","目擊者","S"],["fasten","繫緊","S"],["subtitle","字幕","S"]
+];
+
 // ===== 英檢冒險島 主程式 =====
 (function(){
 'use strict';
@@ -1344,7 +1811,7 @@ function today(d){d=d||new Date();return d.getFullYear()+'-'+String(d.getMonth()
 
 // ---------- 儲存（只存在這台裝置的瀏覽器） ----------
 const KEY='geptIsland.v1';
-const DEF={coins:0,xp:0,stars:{},boss:{},seen:{},wrong:{},badges:{},total:0,maxCombo:0,daily:{},streak:0,lastDaily:'',speedBest:0,mockBest:null,mockPass:false,owned:{'⛵':1},ship:'⛵',set:{music:true,sfx:true,slow:false}};
+const DEF={coins:0,xp:0,stars:{},boss:{},seen:{},wrong:{},badges:{},total:0,maxCombo:0,daily:{},streak:0,lastDaily:'',speedBest:0,mockBest:null,mockPass:false,owned:{'⛵':1},ship:'⛵',set:{music:true,sfx:true,slow:false,level:'adv'}};
 let S;
 function load(){ try{ const raw=localStorage.getItem(KEY); S=Object.assign(JSON.parse(JSON.stringify(DEF)),raw?JSON.parse(raw):{}); S.set=Object.assign({},DEF.set,S.set||{}); }catch(e){ S=JSON.parse(JSON.stringify(DEF)); } }
 function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
@@ -1505,22 +1972,30 @@ function compareSay(target,said){
 const KIND={L1:'看圖辨義',L2:'問答',L3:'簡短對話',L4:'短文聽解',R1:'詞彙',R2:'段落填空',R3:'閱讀理解',W1:'句子重組',W2:'句子改寫／合併',W3:'看圖寫段落',S1:'複誦',S2:'朗讀',S3:'回答問題'};
 const ISL_COLOR={L:'var(--coral)',R:'var(--leaf)',W:'var(--sun)',S:'var(--grape)'};
 const SELF=new Set(['W3','S1','S2','S3']);
-const ITEMS={BREAK:{id:'BREAK',kind:'BREAK'}}, POOLS={}, GROUPS={R2:[],R3:[]};
-function add(it){ ITEMS[it.id]=it; (POOLS[it.kind]=POOLS[it.kind]||[]).push(it.id); }
-BANK.L1.forEach((r,i)=>add({id:'L1-'+i,kind:'L1',pic:r[0],q:r[1],opts:r.slice(2)}));
-BANK.L2.forEach((r,i)=>add({id:'L2-'+i,kind:'L2',s:r[0],opts:r.slice(1)}));
-BANK.L3.forEach((r,i)=>add({id:'L3-'+i,kind:'L3',d:r.d,q:r.q,opts:r.o}));
-BANK.L4.forEach((r,i)=>add({id:'L4-'+i,kind:'L4',t:r.t,q:r.q,opts:r.o}));
-BANK.R1.forEach((r,i)=>add({id:'R1-'+i,kind:'R1',s:r[0],opts:r.slice(1,5),e:r[5]}));
-BANK.R2.forEach((p,g)=>{ const ids=[]; p.b.forEach((b,bi)=>{ const id='R2-'+g+'-'+bi; add({id,kind:'R2',g,b:bi,opts:b,e:p.e[bi]}); ids.push(id); }); GROUPS.R2.push(ids); });
-BANK.R3.forEach((t,g)=>{ const ids=[]; t.qs.forEach((q,qi)=>{ const id='R3-'+g+'-'+qi; add({id,kind:'R3',g,qi,q:q[0],opts:q.slice(1)}); ids.push(id); }); GROUPS.R3.push(ids); });
-BANK.W1.forEach((r,i)=>add({id:'W1-'+i,kind:'W1',chunks:r[0].split('/'),p:r[1],a:r[2]}));
-BANK.W2.forEach((r,i)=>add(Object.assign({id:'W2-'+i,kind:'W2'},r)));
-BANK.W3.forEach((r,i)=>add(Object.assign({id:'W3-'+i,kind:'W3'},r)));
-BANK.S1.forEach((t,i)=>add({id:'S1-'+i,kind:'S1',text:t}));
-BANK.S2.forEach((t,i)=>add({id:'S2-'+i,kind:'S2',text:t}));
-BANK.S3.forEach((r,i)=>add({id:'S3-'+i,kind:'S3',q:r[0],zh:r[1],sample:r[2]}));
-const poolSize=k=>(POOLS[k]||[]).length;
+const ITEMS={BREAK:{id:'BREAK',kind:'BREAK'}}, POOLSET={base:{},adv:{}}, GROUPSET={base:{R2:[],R3:[]},adv:{R2:[],R3:[]}};
+function buildBank(B,lv,pre){
+  const P=POOLSET[lv], G=GROUPSET[lv];
+  const add=it=>{ it.id=pre+it.id; ITEMS[it.id]=it; (P[it.kind]=P[it.kind]||[]).push(it.id); return it.id; };
+  (B.L1||[]).forEach((r,i)=>add({id:'L1-'+i,kind:'L1',pic:r[0],q:r[1],opts:r.slice(2)}));
+  (B.L2||[]).forEach((r,i)=>add({id:'L2-'+i,kind:'L2',s:r[0],opts:r.slice(1)}));
+  (B.L3||[]).forEach((r,i)=>add({id:'L3-'+i,kind:'L3',d:r.d,q:r.q,opts:r.o}));
+  (B.L4||[]).forEach((r,i)=>add({id:'L4-'+i,kind:'L4',t:r.t,q:r.q,opts:r.o}));
+  (B.R1||[]).forEach((r,i)=>add({id:'R1-'+i,kind:'R1',s:r[0],opts:r.slice(1,5),e:r[5]}));
+  (B.R2||[]).forEach((p,g)=>{ const ids=[]; p.b.forEach((b,bi)=>ids.push(add({id:'R2-'+g+'-'+bi,kind:'R2',g,P:p,gk:pre+'R2-'+g,b:bi,opts:b,e:p.e[bi]}))); G.R2.push(ids); });
+  (B.R3||[]).forEach((t,g)=>{ const ids=[]; t.qs.forEach((q,qi)=>ids.push(add({id:'R3-'+g+'-'+qi,kind:'R3',g,P:t,qi,q:q[0],opts:q.slice(1)}))); G.R3.push(ids); });
+  (B.W1||[]).forEach((r,i)=>add({id:'W1-'+i,kind:'W1',chunks:r[0].split('/'),p:r[1],a:r[2]}));
+  (B.W2||[]).forEach((r,i)=>add(Object.assign({kind:'W2'},r,{id:'W2-'+i})));
+  (B.W3||[]).forEach((r,i)=>add(Object.assign({kind:'W3'},r,{id:'W3-'+i})));
+  (B.S1||[]).forEach((t,i)=>add({id:'S1-'+i,kind:'S1',text:t}));
+  (B.S2||[]).forEach((t,i)=>add({id:'S2-'+i,kind:'S2',text:t}));
+  (B.S3||[]).forEach((r,i)=>add({id:'S3-'+i,kind:'S3',q:r[0],zh:r[1],sample:r[2]}));
+}
+buildBank(BANK,'base','');
+if(typeof ADV!=='undefined') buildBank(ADV,'adv','A');
+const LV=()=>(S&&S.set&&S.set.level==='base')?'base':'adv';
+function pool(k){ const p=POOLSET[LV()][k]; return (p&&p.length)?p:(POOLSET.base[k]||[]); }
+function groups(k){ const g=GROUPSET[LV()][k]; return (g&&g.length)?g:(GROUPSET.base[k]||null); }
+const poolSize=k=>pool(k).length;
 
 const ISLANDS=[
  {id:'listen',key:'L',name:'聽力島',en:'Listening',icon:'🎧',info:'正式考試：看圖辨義、問答、簡短對話、短文聽解，共 30 題，約 20 分鐘。',
@@ -1541,12 +2016,13 @@ const islandOf=kind=>ISLANDS.find(i=>i.key===kind[0]);
 
 const sc=id=>(S.seen[id]||0)+Math.random()*.9;
 function pickIds(kind,n,trim){
-  if(GROUPS[kind]){
-    const gs=GROUPS[kind].map(g=>({g,s:g.reduce((a,id)=>a+sc(id),0)/g.length})).sort((a,b)=>a.s-b.s);
+  const GK=groups(kind);
+  if(GROUPSET.base[kind]&&GK){
+    const gs=GK.map(g=>({g,s:g.reduce((a,id)=>a+sc(id),0)/g.length})).sort((a,b)=>a.s-b.s);
     let out=[]; for(const x of gs){ if(out.length>=n) break; out=out.concat(x.g); }
     return trim?out.slice(0,n):out;
   }
-  return (POOLS[kind]||[]).map(id=>({id,s:sc(id)})).sort((a,b)=>a.s-b.s).slice(0,n).map(x=>x.id);
+  return pool(kind).map(id=>({id,s:sc(id)})).sort((a,b)=>a.s-b.s).slice(0,n).map(x=>x.id);
 }
 
 // ---------- 等級／徽章／商店 ----------
@@ -1621,6 +2097,8 @@ document.addEventListener('visibilitychange',()=>{
 // ---------- 地圖 ----------
 function renderMap(){
   const scr=$('#scr-map'); scr.innerHTML='';
+  const lvb=(v,label,sub)=>h('button',{class:'lv-btn'+(LV()===v?' on':''),type:'button','aria-pressed':String(LV()===v),onclick:()=>{ if(LV()===v) return; S.set.level=v; save(); sfx('tap'); renderMap(); }},h('b',null,label),h('small',null,sub));
+  scr.append(h('div',{class:'lvbar'},h('span',{class:'lv-t'},'難度'),lvb('base','🌱 基礎','國一程度'),lvb('adv','🔥 進階','國二三＋兩成高一字')));
   const isl=h('div',{class:'islands'});
   ISLANDS.forEach(is=>{
     const got=is.stages.reduce((a,s)=>a+(S.stars[s.id]||0),0), max=is.stages.length*3;
@@ -1651,7 +2129,7 @@ function starsHTML(n){ let s=''; for(let i=0;i<3;i++) s+=i<n?'★':'<span class=
 function renderIsland(iid){
   const is=ISLANDS.find(i=>i.id===iid), scr=$('#scr-island'); scr.innerHTML='';
   scr.append(h('div',{class:'bar'},h('button',{class:'btn',type:'button',onclick:()=>{ sfx('tap'); renderMap(); show('map'); }},'← 地圖'),h('h2',null,is.icon+' '+is.name)));
-  scr.append(h('div',{class:'panel',style:'margin-bottom:16px;padding:16px 20px'},h('p',{class:'isl-info',style:'margin:0'},'📋 '+is.info+'（每關會從題庫隨機出題，先出你還沒做過的題目）')));
+  scr.append(h('div',{class:'panel',style:'margin-bottom:16px;padding:16px 20px'},h('p',{class:'isl-info',style:'margin:0'},'📋 '+is.info+'（目前難度：'+(LV()==='adv'?'🔥 進階':'🌱 基礎')+'；每關從題庫隨機出題，先出你還沒做過的題目）')));
   const list=h('div',{class:'stages'});
   is.stages.forEach(st=>{
     list.append(h('button',{class:'stage',type:'button',style:'--ic:'+ISL_COLOR[is.key],onclick:()=>{ sfx('tap'); startSession(stageCfg(st.id)); }},
@@ -1900,21 +2378,21 @@ RENDER.R1=ctx=>{
   mcq(ctx.body,opts,correct,{cls:'two',onPick:ok=>ctx.done(ok,{right:esc(it.opts[0]),note:esc(it.e)})});
 };
 function passageHTML(it){
-  const p=BANK.R2[it.g], fill=SES.fill['R2-'+it.g]||{};
+  const p=it.P, fill=SES.fill[it.gk]||{};
   return esc(p.p).replace(/\{(\d)\}/g,(m,n)=>{ const bi=+n-1, f=fill[bi];
     if(f) return '<span class="bl '+(SES.mode==='mock'?'pk':f.ok?'ok':'no')+'">('+n+') '+esc(f.t)+'</span>';
     return '<span class="bl'+(bi===it.b?' cur':'')+'">('+n+') ____</span>'; });
 }
 RENDER.R2=ctx=>{
-  const it=ctx.it, p=BANK.R2[it.g], {opts,correct}=shuf(it.opts);
+  const it=ctx.it, p=it.P, {opts,correct}=shuf(it.opts);
   ctx.body.append(qhead(it,'讀短文，選出第 '+(it.b+1)+' 格最適合的答案'));
   const pas=h('div',{class:'passage',html:'<b>'+esc(p.title)+'</b><br>'+passageHTML(it)});
   const right=h('div',{class:'l1right'},h('div',{class:'qnum'},'第 '+(it.b+1)+' 格（共 '+p.b.length+' 格）'));
-  mcq(right,opts,correct,{cls:'two',onPick:(ok,i)=>{ const k='R2-'+it.g; SES.fill[k]=SES.fill[k]||{}; SES.fill[k][it.b]={t:opts[i],ok}; pas.innerHTML='<b>'+esc(p.title)+'</b><br>'+passageHTML(it); ctx.done(ok,{right:esc(it.opts[0]),note:esc(it.e)}); }});
+  mcq(right,opts,correct,{cls:'two',onPick:(ok,i)=>{ const k=it.gk; SES.fill[k]=SES.fill[k]||{}; SES.fill[k][it.b]={t:opts[i],ok}; pas.innerHTML='<b>'+esc(p.title)+'</b><br>'+passageHTML(it); ctx.done(ok,{right:esc(it.opts[0]),note:esc(it.e)}); }});
   ctx.body.append(h('div',{class:'split'},pas,right));
 };
 RENDER.R3=ctx=>{
-  const it=ctx.it, t=BANK.R3[it.g], {opts,correct}=shuf(it.opts);
+  const it=ctx.it, t=it.P, {opts,correct}=shuf(it.opts);
   ctx.body.append(qhead(it,'讀下面的'+t.kind+'，回答問題'));
   const right=h('div',{class:'l1right'},h('div',{class:'qnum'},'第 '+(it.qi+1)+' 題（共 '+t.qs.length+' 題）'),h('div',{class:'prompt'},it.q));
   mcq(right,opts,correct,{onPick:ok=>ctx.done(ok,{right:esc(it.opts[0])})});
@@ -2055,7 +2533,7 @@ RENDER.S3=ctx=>{
 };
 
 // ---------- 錯題本 ----------
-function preview(it){ switch(it.kind){ case 'L1':case 'L3':case 'L4':case 'R3': return it.q; case 'L2': return it.s; case 'R1': return it.s; case 'R2': return BANK.R2[it.g].title+'・第 '+(it.b+1)+' 格'; case 'W1': return it.a; case 'W2': return it.src.join(' '); default: return ''; } }
+function preview(it){ switch(it.kind){ case 'L1':case 'L3':case 'L4':case 'R3': return it.q; case 'L2': return it.s; case 'R1': return it.s; case 'R2': return it.P.title+'・第 '+(it.b+1)+' 格'; case 'W1': return it.a; case 'W2': return it.src.join(' '); default: return ''; } }
 function renderNotebook(){
   const scr=$('#scr-notebook'); scr.innerHTML='';
   const ids=Object.keys(S.wrong).filter(id=>ITEMS[id]);
@@ -2094,11 +2572,12 @@ function renderChest(){
 }
 
 // ---------- 單字快打 ----------
+function VOC(){ return (LV()==='adv'&&typeof ADV!=='undefined'&&ADV.VOCAB)?ADV.VOCAB:BANK.VOCAB; }
 function renderSpeedIntro(){
   const scr=$('#scr-speed'); scr.innerHTML='';
   scr.append(h('div',{class:'bar'},h('button',{class:'btn',type:'button',onclick:()=>{ sfx('tap'); renderMap(); show('map'); }},'← 地圖'),h('h2',null,'⚡ 單字快打')));
   scr.append(h('div',{class:'panel result'},h('div',{class:'big-e'},'⚡'),h('h2',null,'60 秒，能答對幾個？'),
-    h('p',{class:'note',style:'font-size:18px'},'看英文單字（也會唸出來），選出正確的中文。答錯會扣 3 秒。共 '+BANK.VOCAB.length+' 個初級常見字。'),
+    h('p',{class:'note',style:'font-size:18px'},'看英文單字（也會唸出來），選出正確的中文。答錯會扣 3 秒。'+(LV()==='adv'?'進階字表共 '+VOC().length+' 個（約八成國二、國三字，兩成高一字）。':'基礎字表共 '+VOC().length+' 個初級常見字。')),
     h('p',{class:'note'},'最佳紀錄：'+S.speedBest+' 分'),
     h('button',{class:'btn primary big',type:'button',onclick:()=>{ sfx('tap'); speedGame(); }},'開始 ▶')));
   show('speed');
@@ -2113,8 +2592,9 @@ function speedGame(){
   let last=null;
   function q(){
     if(over) return; busy=false;
-    let w; do{ w=rnd(BANK.VOCAB); }while(w===last); last=w;
-    const others=shuffle(BANK.VOCAB.filter(x=>x!==w&&x[1]!==w[1])).slice(0,3);
+    const V=VOC(), HI=V.filter(x=>x[2]==='S'), LO=V.filter(x=>x[2]!=='S');
+    let w; do{ w=(LV()==='adv'&&HI.length&&Math.random()<.2)?rnd(HI):rnd(LO.length?LO:V); }while(w===last); last=w;
+    const others=shuffle(V.filter(x=>x!==w&&x[1]!==w[1])).slice(0,3);
     const all=shuffle([w].concat(others));
     word.textContent=w[0]; opts.innerHTML='';
     all.forEach(x=>opts.append(h('button',{class:'opt',type:'button',onclick:e=>{
